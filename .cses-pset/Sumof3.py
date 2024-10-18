@@ -1,35 +1,24 @@
-def three_sum_indices(n, x, arr):
-    """
-    Returns the indices of three values in the array that sum up to x.
-    
-    :param n: Array size
-    :param x: Target sum
-    :param arr: List of integers
-    :return: List of three indices (1-indexed) or "IMPOSSIBLE"
-    """
-    # Create a hashmap for efficient lookups
-    num_map = {val: i + 1 for i, val in enumerate(arr)}
-    
-    # Iterate over the array to find the first two values
-    for i in range(n):
-        for j in range(i + 1, n):
-            # Calculate the remaining value needed to reach the target sum
-            remaining = x - arr[i] - arr[j]
-            
-            # Check if the remaining value exists in the hashmap
-            # and is not at the same index as the first two values
-            if remaining in num_map and num_map[remaining] not in (i + 1, j + 1):
-                return [i + 1, j + 1, num_map[remaining]]
-    
-    # If no solution is found, return "IMPOSSIBLE"
-    return "IMPOSSIBLE"
-
-# Example usage
 n, x = map(int, input().split())
-arr = list(map(int, input().split()))
-
-result = three_sum_indices(n, x, arr)
-if result == "IMPOSSIBLE":
-    print(result)
-else:
-    print(*result)
+a = list(map(int, input().split()))
+arr = [(val, idx + 1) for idx, val in enumerate(a)]
+arr.sort()
+ 
+found = False
+for i in range(n - 2):
+    j = i + 1
+    k = n - 1
+    while j < k:
+        total = arr[i][0] + arr[j][0] + arr[k][0]
+        if total == x:
+            print(arr[i][1], arr[j][1], arr[k][1])
+            found = True
+            break
+        elif total < x:
+            j += 1
+        else:
+            k -= 1
+    if found:
+        break
+ 
+if not found:
+  print("IMPOSSIBLE")
